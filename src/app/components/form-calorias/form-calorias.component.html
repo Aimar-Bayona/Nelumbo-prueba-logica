@@ -1,0 +1,48 @@
+<div class="container mt-4 ">
+    <header class="text-center">
+        <h1>Cantidad de Calorías (Kcal)</h1>
+    </header>
+    <div class="mt-4 form-control contenido">
+        <form (ngSubmit)="calcularCalorias()" #form="ngForm">
+            <div class="form-group ">
+                <label for="sistemaMetrico" class="my-2">Sistema métrico:</label>
+                <select name="sistemaMetrico" id="sistemaMetrico" class="form-control mb-2" [(ngModel)]="datos.sistemaMetrico">
+                    <option disabled>Seleccione una opción:</option>
+                    <option value="imperial">Imperial</option>
+                    <option value="metrico">Métrico</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="edad" >Edad:</label>
+                <input type="number" name="edades" class="form-control mb-2" [(ngModel)]="datos.edad" [min]="16" [max]="105" placeholder="Ingrese su edad" #edad="ngModel">
+                <div class="alert alert-danger mt-2" *ngIf="edad.invalid && (edad.dirty || edad.touched)">
+                    <span>Edad no válida (debe estar entre 16 y 105).</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="peso" >Peso({{datos.sistemaMetrico == 'imperial' ? 'lb' : 'Kg'}}):</label>
+                <input type="number" name="peso" class="form-control mb-2" [(ngModel)]="datos.peso" [min]="datos.sistemaMetrico == 'imperial' ? 89.29 : 40.5" [max]="datos.sistemaMetrico == 'imperial' ? 661.38 : 300" placeholder="Ingrese su peso" #peso="ngModel">
+                <div class="alert alert-danger mt-2" *ngIf="peso.invalid && (peso.dirty || peso.touched)">
+                    <span>Peso no válido (debe estar entre {{datos.sistemaMetrico == 'imperial' ? '89.29lb' : '40.5Kg'}} y {{datos.sistemaMetrico == 'imperial' ? '661.38lb' : '300Kg'}})</span>
+                </div>
+            </div> 
+
+            <div class="form-group">
+                <label for="altura" >Altura({{datos.sistemaMetrico == 'imperial' ? '"' : 'mts'}}):</label>
+                <input type="number" name="altura" class="form-control mb-2" [(ngModel)]="datos.altura" [min]="datos.sistemaMetrico == 'imperial' ? 55.12 : 1.40" [max]="datos.sistemaMetrico == 'imperial' ?  88.58 : 2.25" placeholder="Ingrese su estatura" #altura="ngModel">
+                <div class="alert alert-danger mt-2" *ngIf="altura.invalid && (altura.dirty || altura.touched)">
+                 <span>Estatura no válida (debe estar entre {{datos.sistemaMetrico == 'imperial' ? '55.12"' : '1.40mts'}} y {{datos.sistemaMetrico == 'imperial' ? '88.58"' : '2.25mts'}}).</span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn mb-2" [disabled]="form.invalid || !datos.edad || !datos.peso || !datos.altura">Calcular Calorías</button>
+        </form>
+
+        <div *ngIf="datos.resultado != undefined" class="mt-2">
+            <p class="alert alert-success">Calorías a consumir: {{datos.resultado}} Kcal</p>
+        </div>
+
+    </div>
+</div>
